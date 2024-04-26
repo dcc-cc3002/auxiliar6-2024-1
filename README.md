@@ -1,4 +1,5 @@
-# Auxiliar 6: Excepciones
+Auxiliar 6: Excepciones
+===
 
 ## Contexto
 
