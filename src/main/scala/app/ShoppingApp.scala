@@ -83,6 +83,8 @@ class ShoppingApp {
    */
   private def checkItems(items: mutable.Map[String, Int]): Unit = {
 
+    // Completar implementación acá
+
   }
 
   /**
