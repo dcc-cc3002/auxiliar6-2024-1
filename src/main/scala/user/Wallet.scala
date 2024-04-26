@@ -1,5 +1,7 @@
 package user
 
+import exceptions.InsufficientBalanceException
+
 /**
  * Represents a form of payment in the shopping app.
  *
@@ -20,8 +22,7 @@ class Wallet(initBalance: Int) {
    * @param price The price to pay.
    */
   def pay(price: Int): Unit = {
-
-    // Completar implementación acá
-
+    if (_balance < price) throw new InsufficientBalanceException
+    _balance -= price
   }
 }

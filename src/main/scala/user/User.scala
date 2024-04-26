@@ -1,5 +1,7 @@
 package user
 
+import exceptions.NullWalletException
+
 import scala.collection.mutable
 
 /**
@@ -52,8 +54,7 @@ class User {
    * @param price The amount to pay.
    */
   def pay(price: Int): Unit = {
-
-    // Completar implementación acá
-
+    if (wallet == null) throw new NullWalletException
+    wallet.pay(price)
   }
 }

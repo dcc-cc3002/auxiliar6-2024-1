@@ -1,5 +1,6 @@
 package app
 
+import exceptions.{InsufficientBalanceException, InsufficientStockException, MissingItemException, NegativeAmountException, NullWalletException}
 import user.User
 
 import scala.collection.mutable
@@ -64,14 +65,19 @@ class ShoppingApp {
    * @return A message indicating the result of the transaction.
    */
   def processTransaction(user: User): String = {
-
-    // Completar implementación acá
-    // 1. Validar los items
-    // 2. Calcular precio a pagar
-    // 3. Pagar
-    // 4. Actualizar el stock
-
-    null
+    try {
+      checkItems(user.shoppingList)
+      val price: Int = calculatePrice(user.shoppingList)
+      user.pay(price)
+      updateStock(user.shoppingList)
+      "The operation was successful"
+    } catch {
+      case _: MissingItemException => "The item was not found in the store"
+      case _: InsufficientStockException => "There's not enough stock for the item"
+      case _: NegativeAmountException => "You can't buy a negative amount of the item"
+      case _: NullWalletException => "You have no wallet"
+      case _: InsufficientBalanceException => "You don't have enough money"
+    }
   }
 
   /**
@@ -82,9 +88,11 @@ class ShoppingApp {
    * @param items The items being purchased.
    */
   private def checkItems(items: mutable.Map[String, Int]): Unit = {
-
-    // Completar implementación acá
-
+    for ((k, v) <- items) {
+      if (!(_stock contains k)) throw new MissingItemException
+      else if (v < 0) throw new NegativeAmountException
+      else if (_stock(k) < v) throw new InsufficientStockException
+    }
   }
 
   /**
